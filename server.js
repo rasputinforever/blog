@@ -1,38 +1,43 @@
 const express = require("express");
+const morgan = require("morgan");
 const path = require("path");
-const PORT = process.env.PORT || 3000;
+const dotenv = require('dotenv').config();
+const mongoose = require("mongoose");
+const PORT = process.env.PORT || 3001;
 const app = express();
-const bodyParser = require('body-parser');
 
 // Define middleware here
-app.use(bodyParser.json({limit: '200mb'}));
-app.use(bodyParser.urlencoded({limit: '200mb', extended: true}));
-app.use(bodyParser.text({ limit: '200mb' }));
-
-// Define API routes here
-require('./routes/router.js')(app)
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(morgan("tiny"));
 
 // Serve up static assets (usually on heroku)
-if (process.env.NODE_ENV === 'production') {
-  console.log("In Production", path.join(__dirname, './front-end/build'))
-  app.use(express.static(path.join(__dirname, './front-end/build')));
-
-  app.get('*', (req, res) =>
-    { 
-      res.sendFile(
-        path.resolve(__dirname, './', 'front-end', 'build', 'index.html')
-      )
-    }
-  );
-} else {
-  app.get('/', (req, res) => res.send('Please set to production'));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
 }
 
+// Define API routes here
+const BookRoutes = require("./routes/routes.js");
+app.use(BookRoutes);
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./tentamus-ecoc/build/index.html"));
+
+// Send every other request to the React app
+// Define any API routes before this runs
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "./client/public/index.html"));
+});
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/blog", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log('connected to db!');
 });
 
 app.listen(PORT, () => {
-  console.log(`App is listening at http://localhost:${PORT}`);
+  console.log(`🌎 ==> API server now on port ${PORT}!`);
 });
