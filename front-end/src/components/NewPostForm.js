@@ -3,7 +3,7 @@ import React from 'react';
 // utils
 import postAPI from './api/post-api';
 
-function NewPostForm() {
+function NewPostForm({ getData }) {
 
     const [title, setTitle] = React.useState('')
     const [body, setBody] = React.useState('')
@@ -16,8 +16,10 @@ function NewPostForm() {
     }
 
     try {
-      const result = await postAPI.submitPost(query)
-      console.log(result)
+      const response = await postAPI.submitPost(query)
+      console.log("success?", response.status)
+      // this is where you'd handle errors
+      getData()
 
     } catch (err) {
       console.log(err);

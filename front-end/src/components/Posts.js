@@ -1,29 +1,27 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 // utils
 import postAPI from './api/post-api';
 
-function NewPostForm() {
-  
-  const [posts, setPosts] = React.useState([]);
-  
-  const getData = async () => {
+const NewPostForm = ({ posts, getData }) => {
+
+  const deletePost = async (id) => {
+    
+    const query = {
+      id: id,
+    }
 
     try {
-      const result = await postAPI.getPosts({})
-      setPosts(result.data?.posts)
+      const response = await postAPI.deletePost(query)
+      console.log("success?", response.status)
+      // this is where you'd handle errors
+      getData()
 
     } catch (err) {
       console.log(err);
 
     }
-  }
-
-  useEffect(() => {
-    getData()
-  }, [])
-
-  console.log(posts)
+}
   return (
     <div className='post-container'>
         Posts
@@ -35,6 +33,8 @@ function NewPostForm() {
                 <p style={{width: '100%'}}>Title: {p.title}</p>
                 <p style={{width: '100%'}}>Time: {p.time}</p>
                 <p style={{width: '100%'}}>Body: {p.body}</p>
+                <button onClick={() => deletePost(p._id)}>delete post</button>
+                <button>edit post</button>
               </div>
             </li>
           )
