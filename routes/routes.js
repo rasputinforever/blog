@@ -3,8 +3,10 @@ const dotenv = require('dotenv').config();
 
 module.exports = (app) => {
     app.get('/api/get-posts', async (req, res) => {
-      
+
       try {    
+        // needs to be "send most recent 10"
+        // then another thing "get 10 more..."
         Post.findOne({ _id: process.env.DBID || false })
         .then((data) => {
           res.status(200).json(data)
