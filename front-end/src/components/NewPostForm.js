@@ -12,7 +12,7 @@ function NewPostForm() {
     const query = {
       title: title,
       body: body,
-      date: new Date()
+      time: new Date()
     }
 
     try {
