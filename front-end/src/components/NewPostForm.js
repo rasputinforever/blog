@@ -9,14 +9,20 @@ function NewPostForm() {
     const [body, setBody] = React.useState('')
 
   const submitData = async () => {
-    const sendData = {
+    const query = {
       title: title,
       body: body,
       date: new Date()
     }
 
+    try {
+      const result = await postAPI.submitPost(query)
+      console.log(result)
 
+    } catch (err) {
+      console.log(err);
 
+    }
   }
 
   return (
@@ -28,7 +34,7 @@ function NewPostForm() {
         <textarea id="post-body" name="post body" value={body} onChange={(e) => setBody(e.target.value)} className='post-body'>
             Post Body
         </textarea>
-        <button disabled={title === '' || body === ''}>submit</button>
+        <button disabled={title === '' || body === ''} onClick={submitData} >submit</button>
     </div>
   );
 }

@@ -17,8 +17,8 @@ module.exports = (app) => {
   
     })
   
-    app.put('/api/submit-post', async (req, res) => {
-      const paramObj = req.body.params.q.key
+    app.put('/api/submit-post/', async (req, res) => {
+      const paramObj = req.body.params.q
       console.log(paramObj)
       try {    
   
