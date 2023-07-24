@@ -9,8 +9,8 @@ module.exports = (app) => {
         // then another thing "get 10 more..."
         Post.findOne({ _id: process.env.DBID || false })
         .then((data) => {
-          console.log("getting posts", data)
-          res.status(200).json(data)
+          const returnData = data.posts.slice(0, 10).sort((a,b) =>  new Date(b.time) - new Date(a.time));
+          res.status(200).json(returnData)
         })
 
       } catch (err) {
@@ -21,25 +21,32 @@ module.exports = (app) => {
     })
     
     app.put('/api/submit-post/', async (req, res) => {
+      const paramAction = req.body.params.a
       const paramObj = req.body.params.q
-      console.log("posting a post", paramObj)
-      const newPost = paramObj
+      console.log(paramAction, " to a post", paramObj)
+      let response = false
       try {    
-  
-      Post.findOne({ _id: process.env.DBID || false })
-      .then((data) => {
-        // now inject new book data
-        const newPosts = [...data.posts, newPost]
 
-        Post.updateOne({ _id: process.env.DBID || false }, {
-          posts: newPosts
-        })
-        .then((data) => {
-          // final
-          res.status(200).json(data)
-        });
-      })
+        const postData = await Post.findOne({ _id: process.env.DBID || false })
+        
+        // adding a post
+        if (paramAction === 'new post') {
 
+          const newPosts = [...postData.posts, paramObj]
+          response = await Post.updateOne({ _id: process.env.DBID || false }, {
+            posts: newPosts
+          })
+        }
+
+        if (paramAction === 'delete post') {
+
+          const newPosts = postData.posts.filter(p => p._id.toString() !== paramObj.id)
+          response = await Post.updateOne({ _id: process.env.DBID || false }, {
+            posts: newPosts
+          })
+        }
+
+        res.status(200).json(response.acknowledged)
         
       } catch (err) {
           console.log(err)    
