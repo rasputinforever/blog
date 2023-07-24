@@ -17,28 +17,7 @@ module.exports = (app) => {
       }
   
     })
-  
-    app.post('/api/submit-post/', async (req, res) => {
-      const paramObj = req.body.params.q
-      console.log(paramObj)
-      const newPost = paramObj
-      try {    
-  
-        Post.insertMany(newPost)
-        .then(response => {
-          console.log(response)
-          res.status(200).json(true)
-        })
-
-        
-      } catch (err) {
-          console.log(err)    
-          res.status(500).json(false)
-      }
-  
-  
-    })
-
+    
     app.put('/api/submit-post/', async (req, res) => {
       const paramObj = req.body.params.q
       console.log(paramObj)
