@@ -9,6 +9,7 @@ module.exports = (app) => {
         // then another thing "get 10 more..."
         Post.findOne({ _id: process.env.DBID || false })
         .then((data) => {
+          console.log("getting posts", data)
           res.status(200).json(data)
         })
 
@@ -21,7 +22,7 @@ module.exports = (app) => {
     
     app.put('/api/submit-post/', async (req, res) => {
       const paramObj = req.body.params.q
-      console.log(paramObj)
+      console.log("posting a post", paramObj)
       const newPost = paramObj
       try {    
   
