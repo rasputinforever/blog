@@ -26,7 +26,7 @@ function NewPostForm() {
   console.log(posts)
   return (
     <div className='post-container'>
-        Post Body Below...
+        Posts
         <ul>
         {posts?.map((p, i) => {
           return (
