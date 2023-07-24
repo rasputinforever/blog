@@ -1,9 +1,23 @@
 import React from 'react';
 
+// utils
+import postAPI from './api/post-api';
+
 function NewPostForm() {
 
     const [title, setTitle] = React.useState('')
     const [body, setBody] = React.useState('')
+
+  const submitData = async () => {
+    const sendData = {
+      title: title,
+      body: body,
+      date: new Date()
+    }
+
+
+
+  }
 
   return (
     <div className='post-container'>
@@ -14,6 +28,7 @@ function NewPostForm() {
         <textarea id="post-body" name="post body" value={body} onChange={(e) => setBody(e.target.value)} className='post-body'>
             Post Body
         </textarea>
+        <button disabled={title === '' || body === ''}>submit</button>
     </div>
   );
 }
