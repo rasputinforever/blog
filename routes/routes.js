@@ -3,10 +3,9 @@ const dotenv = require('dotenv').config();
 
 module.exports = (app) => {
     app.get('/api/get-posts', async (req, res) => {
-        const paramObj = req.body.params.q.key
-        console.log('you made it to the GET POST API!', paramObj)
+      
       try {    
-        Post.findOne({ _id: req.params.userid })
+        Post.findOne({ _id: process.env.DBID || false })
         .then((data) => {
           res.status(200).json(data)
         })
