@@ -7,6 +7,23 @@
   pointer-events: none;
 }
 
+.post-container {
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+  background-color: bisque;
+}
+
+.post-title {
+  width: 100%;
+  height: 15px;
+}
+
+.post-body {
+  width: 100%;
+  height: 300px
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
