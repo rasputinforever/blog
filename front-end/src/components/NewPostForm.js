@@ -19,8 +19,10 @@ function NewPostForm({ getData }) {
       const response = await postAPI.submitPost(query)
       console.log("success?", response.status)
       // this is where you'd handle errors
-      getData()
 
+      getData()
+      setTitle('')
+      setBody('')
     } catch (err) {
       console.log(err);
 

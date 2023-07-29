@@ -21,7 +21,21 @@ const NewPostForm = ({ posts, getData }) => {
       console.log(err);
 
     }
-}
+  }
+
+  const getFormattedDate = (value) => {
+    let date = new Date(value);
+    let year = date.getFullYear();
+  
+    let month = (1 + date.getMonth()).toString();
+    month = month.length > 1 ? month : '0' + month;
+  
+    let day = date.getDate().toString();
+    day = day.length > 1 ? day : '0' + day;
+    
+    return month + ' / ' + day + ' / ' + year;
+  }
+  
   return (
     <div className='post-container'>
         Posts
@@ -30,9 +44,9 @@ const NewPostForm = ({ posts, getData }) => {
           return (
             <li key={'post-' + i}>
               <div style={{outline: '1px black solid', margin: '5px', textAlign: 'left'}}>
-                <p style={{width: '100%'}}>Title: {p.title}</p>
-                <p style={{width: '100%'}}>Time: {p.time}</p>
-                <p style={{width: '100%'}}>Body: {p.body}</p>
+                <h5 style={{width: '100%'}}>{p.title}</h5>
+                <p style={{width: '100%'}}>{getFormattedDate(p.time)}</p>
+                <p style={{width: '100%'}}>{p.body}</p>
                 <button onClick={() => deletePost(p._id)}>delete post</button>
                 <button>edit post</button>
               </div>
