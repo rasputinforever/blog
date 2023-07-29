@@ -1,4 +1,5 @@
 import React from 'react';
+import parse from 'html-react-parser'
 
 // utils
 import postAPI from './api/post-api';
@@ -46,7 +47,7 @@ const NewPostForm = ({ posts, getData }) => {
               <div style={{outline: '1px black solid', margin: '5px', textAlign: 'left'}}>
                 <h5 style={{width: '100%'}}>{p.title}</h5>
                 <p style={{width: '100%'}}>{getFormattedDate(p.time)}</p>
-                <p style={{width: '100%'}}>{p.body}</p>
+                <p style={{width: '100%'}}>{parse(p.body)}</p>
                 <button onClick={() => deletePost(p._id)}>delete post</button>
                 <button>edit post</button>
               </div>
